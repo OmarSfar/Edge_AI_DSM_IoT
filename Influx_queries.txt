@@ -1,0 +1,28 @@
+This file contains the queries used on Grafana to build the graphs
+
+predicted vs active power graph:
+
+from(bucket: "sensors")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r._measurement == "power")
+  |> filter(fn: (r) => r._field == "actual_value" or r._field == "predicted_value")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+
+safety threshold:
+
+from(bucket: "sensors")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "system_metrics")
+  |> filter(fn: (r) => r["_field"] == "safety_threshold")
+  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)
+  |> yield(name: "safety_threshold")
+
+number of active sensors:
+
+from(bucket: "sensors")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "system_metrics")
+  |> filter(fn: (r) => r["_field"] == "active_nodes")
+  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)
+  |> yield(name: "active_nodes")

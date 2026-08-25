@@ -1,0 +1,6 @@
+# parameters configuration
+threshold.standard=3.5
+threshold.emergency=3.0
+threshold.hysteresis=0.5
+timeout.node.offline=45000
+loop.sleep.ms=30000

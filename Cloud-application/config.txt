@@ -1,0 +1,3 @@
+# IPv6 sensor addresses
+[fd00::f6ce:364b:b003:a76e]
+[fd00::f6ce:361b:a683:bc9c]
