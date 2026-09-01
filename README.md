@@ -74,17 +74,32 @@ The ML model was trained on the open **Individual Household Electric Power Consu
 ## 📁 Repository Structure of Main Files
 
 ```
-├── Contiki/            # Edge firmware in C (Contiki-NG, CoAP resources, FSM)
-│   ├── sensor.c           # Main edge node application & local logic
-│   └── power_predictor.h  # C header containing exported neural network weights
-├── machine learning/      # Training pipeline & data processing
-│   ├── train_model.ipynb  # Preprocessing, ANN training & emlearn export
-├── cloud-app/             # Java Californium Cloud application
-│   ├── src/               # Ingestion pipeline, Observe handlers & CLI
-│   └── config.txt         # Static device IP configuration
-│── docs/                  # Project documentation & test reports
-└── Influx_queries.txt     # Flux queries used for Grafana dashboards
+├── Cloud-application/
+│   ├── src/main/java/
+│   │   ├── CloudAppDSM.java             # Main cloud entry point, CoAP Observe & FSM control loop
+│   │   └── DatabaseManager.java         # InfluxDB client & asynchronous ingestion service
+│   ├── cloud-config.properties.txt      # Thresholds & cloud-specific runtime parameters
+│   ├── config.txt                       # Static IPv6 node directory configuration
+│   └── pom.xml                          # Maven build file (dependencies for Californium & InfluxDB)
+│
+├── Contiki/
+│   ├── resources/
+│   │   ├── res-load.c                   # CoAP actuator resource (/load) for load switching
+│   │   └── res-power.c                  # Observable CoAP sensor resource (/power) in JSON
+│   ├── data_trace.h                     # Power dataset traces for edge emulation
+│   ├── power_predictor.h                # C header containing exported ANN weights (emlearn)
+│   ├── project-conf.h                   # Contiki-NG network stack & buffer configurations
+│   ├── sensor.c                         # Edge node main process, button ISR & fail-safe logic
+│   └── Makefile                         # Contiki-NG build automation
+│
+├── machine learning/
+│   ├── train_model.ipynb                # Data exploration, scaling, ANN training & C export
+│   └── Influx_queries.txt               # Flux queries configured on Grafana dashboards
+│
+├── .gitignore                           # Ignores large raw dataset CSVs and build artifacts
+└── README.md                            # Project overview & documentation
 ```
+
 
 ---
 
