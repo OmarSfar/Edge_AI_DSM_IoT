@@ -71,7 +71,7 @@ The ML model was trained on the open **Individual Household Electric Power Consu
 
 ---
 
-## 📁 Repository Structure of Main Files
+## 📁 Repository Structure
 
 ```
 ├── Cloud-application/
@@ -93,11 +93,10 @@ The ML model was trained on the open **Individual Household Electric Power Consu
 │   └── Makefile                         # Contiki-NG build automation
 │
 ├── machine learning/
-│   ├── train_model.ipynb                # Data exploration, scaling, ANN training & C export
-│   └── Influx_queries.txt               # Flux queries configured on Grafana dashboards
-│
-├── .gitignore                           # Ignores large raw dataset CSVs and build artifacts
-└── README.md                            # Project overview & documentation
+│   └── train_model.ipynb                # Data exploration, scaling, ANN training & C export
+│             
+├── Influx_queries.txt                   # Flux queries configured on Grafana dashboards
+└── Documentation.pdf                    # Documentation of the project
 ```
 
 
