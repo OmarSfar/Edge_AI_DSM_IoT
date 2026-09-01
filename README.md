@@ -11,8 +11,8 @@ Developed for the *Internet of Things* course (M.Sc. in Computer Engineering, Un
 In modern facilities, simultaneous activation of heavy electrical loads (HVAC, industrial equipment, EV chargers) causes sudden power surges.
 
 This system employs a **two-tier closed-loop control system**:
-1. **Micro-Level (Edge Layer):** IoT smart meters monitor power readings, run on-device neural network inference to predict power spikes (> 5.0 kW), immediately shed local loads, activate a hardware safety interlock (Red LED), and notify neighboring nodes directly via peer-to-peer CoAP (M2M) without waiting for the Cloud.
-2. **Macro-Level (Cloud Layer):** A central server aggregates building-wide telemetry via CoAP Observe. If the aggregate predicted demand exceeds a baseline safety threshold (> 4.0 kW), the Cloud triggers automated load reduction commands across non-essential devices.
+1. **Micro-Level (Edge Layer):** IoT smart meters monitor power readings, run on-device neural network inference to predict power spikes, immediately shed local loads, activate a hardware safety interlock (Red LED), and notify neighboring nodes directly via peer-to-peer CoAP (M2M) without waiting for the Cloud.
+2. **Macro-Level (Cloud Layer):** A central server aggregates building-wide telemetry via CoAP Observe. If the aggregate predicted demand exceeds a baseline safety threshold, the Cloud triggers automated load reduction commands across non-essential devices.
 
 ```
 [ IoT Edge Nodes (nRF52840) ] <--- CoAP / UDP (M2M) ---> [ Neighbor Node ]
@@ -65,26 +65,25 @@ The system was evaluated under stressful network and hardware fault conditions:
 
 The ML model was trained on the open **Individual Household Electric Power Consumption** dataset.
 
-Due to GitHub's file size limits, the raw CSV dataset is not tracked in this repository:
 * **Dataset Name:** `household_power_consumption.csv`
-* **Source:** UCI Machine Learning Repository / Kaggle (Individual Household Electric Power Consumption)
+* **Source:** https://www.kaggle.com/datasets/uciml/electric-power-consumption-data-set
 * **Setup:** Download the dataset, extract the `.csv` file, and place it inside the `machine learning/` folder before running `train_model.ipynb`.
 
 ---
 
-## 📁 Repository Structure
+## 📁 Repository Structure of Main Files
 
 ```
-├── contiki-ng/            # Edge firmware in C (Contiki-NG, CoAP resources, FSM)
-│   ├── server.c           # Main edge node application & local logic
+├── Contiki/            # Edge firmware in C (Contiki-NG, CoAP resources, FSM)
+│   ├── sensor.c           # Main edge node application & local logic
 │   └── power_predictor.h  # C header containing exported neural network weights
 ├── machine learning/      # Training pipeline & data processing
 │   ├── train_model.ipynb  # Preprocessing, ANN training & emlearn export
-│   └── Influx_queries.txt # Flux queries used for Grafana dashboards
 ├── cloud-app/             # Java Californium Cloud application
-│   ├── src/               # Ingestion pipeline, Observe handlers, CLI & FSM
+│   ├── src/               # Ingestion pipeline, Observe handlers & CLI
 │   └── config.txt         # Static device IP configuration
-└── docs/                  # Project documentation & test reports
+│── docs/                  # Project documentation & test reports
+└── Influx_queries.txt     # Flux queries used for Grafana dashboards
 ```
 
 ---
